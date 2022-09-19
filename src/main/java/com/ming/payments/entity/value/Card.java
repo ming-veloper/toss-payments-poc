@@ -1,17 +1,17 @@
 package com.ming.payments.entity.value;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 public class Card {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * 카드로 결제한 금액입니다.
      */
-    @Column(name = "card_payment_amount")
     private Long amount;
 
     /**
