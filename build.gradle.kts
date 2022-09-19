@@ -20,6 +20,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     compileOnly("org.projectlombok:lombok")
     implementation("mysql:mysql-connector-java")
     annotationProcessor("org.projectlombok:lombok")
