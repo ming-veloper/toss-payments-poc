@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Toss 테스트 결제창</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+
+<body>
+<div class="container">
+    <div class="card" style="width: 18rem;">
+        <img src="https://static.toss.im/homepage-static/newtoss/newtoss-og.jpg" class="card-img-top" alt="toss logo">
+        <div class="card-body">
+            <h5 class="card-title">구매하기</h5>
+            <h6 class="card-subtitle mb-2 text-muted">19,000 원</h6>
+            <input type="hidden" value="19000" id="amount">
+            <p class="card-text">TossPayments와 연동하여 결제창을 띄웁니다.</p>
+            <button type="button" class="btn btn-primary" onclick="processPayment()">결제하기</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+<script src="https://js.tosspayments.com/v1"></script>
+<script th:inline="javascript">
+    let clientKey = /*[[${clientKey}]]*/;
+    let tossPayments;
+
+    function processPayment() {
+        const orderId = new Date().getTime();
+        let amount = document.querySelector('#amount').value;
+        const paymentData = {
+            amount,
+            orderId,
+            //TODO 주문자 명과 주문 이름을 사전에 API로 받아와야 함.
+            orderName: "주문 이름",
+            customerName: "고객 이름",
+            //TODO 나중에 결제 성공 혹은 실패 시에 리다이렉트 해야 함
+            successUrl: window.location.origin + "/success",
+            failUrl: window.location.origin + "/fail",
+        };
+        tossPayments.requestPayment("카드", paymentData);
+    }
+
+
+</script>
+<script>
+    (function () {
+        tossPayments = TossPayments(clientKey);
+    })();
+</script>
+</body>
+</html>
