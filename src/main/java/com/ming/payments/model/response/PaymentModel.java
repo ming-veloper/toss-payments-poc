@@ -1,6 +1,7 @@
 package com.ming.payments.model.response;
 
 import com.ming.payments.entity.value.Card;
+import com.ming.payments.model.response.method.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -159,6 +160,33 @@ public class PaymentModel {
      * 카드로 결제하면 제공되는 카드 관련 정보입니다.
      */
     private Card card;
+
+    /**
+     * 가상계좌로 결제하면 제공되는 가상계좌 관련 정보입니다.
+     */
+    private VirtualAccountModel virtualAccount;
+
+    /**
+     * 가상계좌 웹훅 요청이 정상적인 요청인지 검증하기 위한 값입니다.
+     * 이 값이 <a href="https://docs.tosspayments.com/guides/webhook#%EC%9D%BC%EB%B0%98-%EA%B2%B0%EC%A0%9C---%EA%B0%80%EC%83%81%EA%B3%84%EC%A2%8C">가상계좌 웹훅 이벤트</a>
+     * 본문으로 돌아온 secret과 같으면 정상적인 요청입니다. 최대 길이는 50자 이하여야 합니다.
+     */
+    private String secret;
+
+    /**
+     * 휴대폰으로 결제하면 제공되는 휴대폰 결제 관련 정보입니다.
+     */
+    private MobilePhoneModel mobilePhone;
+
+    /**
+     * 상품권으로 결제하면 제공되는 상품권 결제 관련 정보입니다.
+     */
+    private GiftCertificateModel giftCertificate;
+
+    /**
+     * 계좌이체로 결제했을 때 이체 정보가 담기는 객체입니다.
+     */
+    private TransferModel transfer;
 
     /**
      * 발행된 영수증 정보입니다.

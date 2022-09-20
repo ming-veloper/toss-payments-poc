@@ -1,4 +1,4 @@
-package com.ming.payments.model.response;
+package com.ming.payments.model.response.method;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
