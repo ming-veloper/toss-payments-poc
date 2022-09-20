@@ -1,4 +1,4 @@
-package com.ming.payments.model;
+package com.ming.payments.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
