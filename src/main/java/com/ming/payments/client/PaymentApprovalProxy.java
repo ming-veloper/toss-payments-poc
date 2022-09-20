@@ -1,6 +1,6 @@
 package com.ming.payments.client;
 
-import com.ming.payments.model.PaymentApprovalRequest;
+import com.ming.payments.model.request.PaymentApprovalRequest;
 import feign.HeaderMap;
 import feign.Headers;
 import feign.RequestLine;
