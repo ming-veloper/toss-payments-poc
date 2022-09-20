@@ -16,7 +16,12 @@
         <div class="card-body">
             <h5 class="card-title">구매하기</h5>
             <h6 class="card-subtitle mb-2 text-muted">19,000 원</h6>
+            <div class="mb-3">
+                <label for="usernameForm" class="form-label">주문자명</label>
+                <input type="text" class="form-control" id="usernameForm" placeholder="주문자명">
+            </div>
             <input type="hidden" value="19000" id="amount">
+            <input type="hidden" value="1" id="productId">
             <p class="card-text">TossPayments와 연동하여 결제창을 띄웁니다.</p>
             <button type="button" class="btn btn-primary" onclick="processPayment()">결제하기</button>
         </div>
@@ -33,19 +38,41 @@
     let tossPayments;
 
     function processPayment() {
-        const orderId = new Date().getTime();
-        let amount = document.querySelector('#amount').value;
-        const paymentData = {
-            amount,
-            orderId,
-            //TODO 주문자 명과 주문 이름을 사전에 API로 받아와야 함.
-            orderName: "주문 이름",
-            customerName: "고객 이름",
-            //TODO 나중에 결제 성공 혹은 실패 시에 리다이렉트 해야 함
-            successUrl: window.location.origin + "/success",
-            failUrl: window.location.origin + "/fail",
-        };
-        tossPayments.requestPayment("카드", paymentData);
+        let ordererName = document.querySelector('#usernameForm').value;
+        if (ordererName.length === 0) {
+            alert('주문자명은 필수입니다.');
+            return;
+        }
+
+
+        fetch('api/order', {
+            method: 'POST',
+            body: JSON.stringify({
+                //TODO ordererName 직접 입력 받게...
+                ordererName,
+                productId: document.querySelector('#productId').value
+            }),
+            headers: {
+                'Content-Type': 'application/json;'
+            }
+        })
+            .then(async response => {
+                if (response.status === 201) {
+                    let orderId = await response.text();
+                    let amount = document.querySelector('#amount').value;
+                    const paymentData = {
+                        amount,
+                        orderId,
+                        //TODO 주문자 명과 주문 이름을 사전에 API로 받아와야 함.
+                        orderName: "주문 이름",
+                        customerName: "고객 이름",
+                        //TODO 나중에 결제 성공 혹은 실패 시에 리다이렉트 해야 함
+                        successUrl: window.location.origin + "/success",
+                        failUrl: window.location.origin + "/fail",
+                    };
+                    tossPayments.requestPayment("카드", paymentData);
+                }
+            });
     }
 
 

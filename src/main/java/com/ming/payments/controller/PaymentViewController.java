@@ -1,6 +1,6 @@
 package com.ming.payments.controller;
 
-import com.ming.payments.config.TossPaymentsConfiguration;
+import com.ming.config.TossPaymentsConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
