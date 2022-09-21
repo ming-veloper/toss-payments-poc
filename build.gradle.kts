@@ -18,6 +18,7 @@ repositories {
 val feignVersion: String = "11.9.1"
 
 dependencies {
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")

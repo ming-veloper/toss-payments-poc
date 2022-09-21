@@ -2,11 +2,12 @@ package com.ming.payments.client;
 
 import com.ming.payments.domain.model.request.PaymentApprovalRequest;
 import com.ming.payments.domain.model.response.PaymentModel;
+import feign.FeignException;
 import feign.HeaderMap;
+import feign.Param;
 import feign.RequestLine;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Base64;
 import java.util.Map;
@@ -26,25 +27,26 @@ public interface PaymentApprovalProxy {
     @RequestLine("POST /v1/payments/confirm")
     PaymentModel processConfirmPayment(
             @HeaderMap Map<String, Object> headerMap,
-            @RequestBody PaymentApprovalRequest request
+            PaymentApprovalRequest request
     );
 
     default PaymentModel confirmPayment(String secretKey,
-                                        PaymentApprovalRequest request) {
+                                        @Param("request") PaymentApprovalRequest request) {
+        secretKey += ":";
         Map<String, Object> headerMap = createHeader(secretKey);
         try {
             return processConfirmPayment(headerMap, request);
-        } catch (Exception e) {
+        } catch (FeignException.Unauthorized e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
     @NotNull
     private static Map<String, Object> createHeader(String secretKey) {
-        Map<String, Object> headerMap = Map.of(
+        return Map.of(
                 HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString(secretKey.getBytes()),
                 HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
-        return headerMap;
     }
 
 

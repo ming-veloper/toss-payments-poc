@@ -1,5 +1,6 @@
 package com.ming.payments.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ming.payments.domain.model.request.PaymentApprovalRequest;
 import com.ming.payments.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class PaymentAPIController {
     private final PaymentService paymentService;
 
     @GetMapping("/success")
-    public String test(PaymentApprovalRequest request) {
+    public String test(PaymentApprovalRequest request) throws JsonProcessingException {
         paymentService.doSomething(request);
         return "";
     }
