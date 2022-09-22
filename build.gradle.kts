@@ -18,7 +18,6 @@ repositories {
 val feignVersion: String = "11.9.1"
 
 dependencies {
-    implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -26,6 +25,7 @@ dependencies {
     implementation("io.github.openfeign:feign-okhttp:$feignVersion")
     implementation("io.github.openfeign:feign-gson:$feignVersion")
     implementation("io.github.openfeign:feign-slf4j:$feignVersion")
+    implementation("org.modelmapper:modelmapper:3.1.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

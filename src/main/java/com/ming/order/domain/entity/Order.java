@@ -2,11 +2,13 @@ package com.ming.order.domain.entity;
 
 import com.ming.order.domain.model.OrderStatus;
 import com.ming.order.domain.value.OrderId;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "orders")
+@Getter
 public class Order {
 
     @EmbeddedId
@@ -20,6 +22,12 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    public static Order of(String orderId) {
+        Order order = new Order();
+        order.orderId = new OrderId(orderId);
+        return order;
+    }
 
     protected Order() {
     }
@@ -38,5 +46,9 @@ public class Order {
 
     public void cancelOrder() {
         this.orderStatus = OrderStatus.CANCELLED;
+    }
+
+    public void completeOrder() {
+        this.orderStatus = OrderStatus.COMPLETED;
     }
 }
