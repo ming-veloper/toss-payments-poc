@@ -15,3 +15,7 @@ toss:
   payments:
     client-key: ${TOSS_CLIENT_KEY}
     secret-key: ${TOSS_SECRET_KEY}
+
+logging.level:
+  org.apache.http: DEBUG
+  httpclient.wire: DEBUG

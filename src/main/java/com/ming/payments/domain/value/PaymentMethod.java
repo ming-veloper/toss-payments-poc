@@ -1,13 +1,28 @@
 package com.ming.payments.domain.value;
 
-//TODO
-// TossPayments 측에서는 이렇게 한글로 넘겨 주는 값들을 ENUM으로 매핑하려 하는데
-// 그냥 ENUM도 한글로 할 지... 아니면 컨버터를 구현해서 영어로 매핑할지... 고민해보기🤓
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
+
+@Getter
+@RequiredArgsConstructor
 public enum PaymentMethod {
 
-    카드,
-    가상계좌,
-    간편결제,
-    휴대폰,
+    CARD("카드"),
+    VIRTUAL_ACCOUNT("가상계좌"),
+    EASY_PAY("간편결제"),
+    MOBILE_PHONE("휴대폰"),
+    GIFT_CERTIFICATE("상품권(문화상품권, 도서문화상품권, 게임문화상품권)"),
+    TRANSFER("계좌이체");
+
+    private final String description;
+
+    public static PaymentMethod findByDescription(String description) {
+        return Arrays.stream(PaymentMethod.values())
+                .filter(i -> i.getDescription().equals(description))
+                .findFirst()
+                .orElseThrow();
+    }
 
 }

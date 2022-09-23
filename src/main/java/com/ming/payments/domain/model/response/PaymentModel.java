@@ -1,7 +1,6 @@
 package com.ming.payments.domain.model.response;
 
 import com.ming.payments.domain.model.response.method.*;
-import com.ming.payments.domain.value.Card;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -159,7 +158,7 @@ public class PaymentModel {
     /**
      * 카드로 결제하면 제공되는 카드 관련 정보입니다.
      */
-    private Card card;
+    private CardModel card;
 
     /**
      * 가상계좌로 결제하면 제공되는 가상계좌 관련 정보입니다.
