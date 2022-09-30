@@ -1,7 +1,21 @@
+import com.github.gradle.node.npm.task.NpmTask
+import com.github.gradle.node.task.NodeTask
+
 plugins {
-    id("org.springframework.boot") version ("2.7.3")
-    id("io.spring.dependency-management") version ("1.0.13.RELEASE")
+    // SPRING
+    id("org.springframework.boot") version ("2.7.4")
+    id("io.spring.dependency-management") version ("1.0.14.RELEASE")
+
+    // JAVA
     id("java")
+
+    // NODE_JS
+    id("com.github.node-gradle.node") version ("3.4.0")
+}
+
+node {
+    download.set(true)
+    nodeProjectDir.set(file("${project.projectDir}/src/main/resources/static"))
 }
 
 group = "com.ming"
@@ -39,3 +53,17 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register("npmSetScript", type = NodeTask::class) {
+    dependsOn("npmInstall")
+    script.set(file("${project.projectDir}/src/main/resources/static/package.json"))
+}
+
+
+tasks.register("npmRunBuild", type = NpmTask::class) {
+    dependsOn("npmSetScript")
+    args.set(listOf("run", "build"))
+}
+
+tasks.first { it.name == "bootJar" }.dependsOn("npmRunBuild")
+

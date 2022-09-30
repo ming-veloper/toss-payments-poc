@@ -148,6 +148,7 @@ public class PaymentModel {
     /**
      * 결제 취소 이력이 담기는 배열입니다.
      */
+    @Builder.Default
     private List<PaymentCancelModel> cancels = new ArrayList<>();
 
     /**
