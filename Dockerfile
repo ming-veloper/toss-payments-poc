@@ -1,6 +1,6 @@
 FROM openjdk:17-ea AS builder
 COPY . .
-RUN ./gradlew clean npmInstall build
+RUN ./gradlew clean bootJar
 
 FROM openjdk:17-ea
 COPY --from=builder build/libs/*.jar app.jar

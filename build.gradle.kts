@@ -67,5 +67,5 @@ tasks.register("npmRunBuild", type = NpmTask::class) {
 
 
 // BUILD <-- npmRunBuild <-- npmSetScript <-- npmInstall
-tasks.first { it.name == "build" }.dependsOn("npmRunBuild")
+tasks.first { it.name == "bootJar" }.dependsOn("npmRunBuild")
 

@@ -33,15 +33,15 @@ function processPayments() {
             if (response.status === 201) {
                 let orderId = await response.text();
                 let amount: number = Number((document.querySelector('#amount') as HTMLInputElement).value);
-                const paymentData: PaymentModel = {
-                    amount,
-                    orderId,
-                    orderName: "주문 이름",
-                    customerName: "고객 이름",
-                    successUrl: window.location.origin + "/success",
-                    failUrl: window.location.origin + "/fail",
-                };
-                debugger;
+
+                let paymentData = PaymentModel.builder()
+                    .withAmount(amount)
+                    .withOrderId(orderId)
+                    .withOrderName("주문 이름")
+                    .withCustomerName("고객 이름")
+                    .withSuccessUrl(window.location.origin + "/success")
+                    .withFailUrl(window.location.origin + "/fail")
+                    .build();
                 tossInstance.requestPayment("카드", paymentData);
             }
         })
