@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: "main.js"
+        filename: "somang.js"
     },
     resolve: {
         extensions: ['.ts', '.js'],

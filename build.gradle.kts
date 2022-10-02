@@ -77,11 +77,11 @@ tasks.register("npmRunBuild", type = NpmTask::class) {
     dependsOn("npmSetScript")
     args.set(listOf("run", "build"))
     doLast {
-        val scriptFile = file("${project.projectDir}/src/main/resources/static/main.js")
+        val scriptFile = file("${project.projectDir}/src/main/resources/static/somang.js")
         if (scriptFile.exists()) {
             copy {
                 from(scriptFile)
-                into("${project.projectDir}/src/main/resources/static/script")
+                into("${project.projectDir}/build/resources/static/script")
             }
             scriptFile.delete()
         }
