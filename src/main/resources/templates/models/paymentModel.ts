@@ -1,4 +1,4 @@
-type OrderId = string;
+import {OrderId} from "./types";
 
 export class PaymentModel {
     amount: number;

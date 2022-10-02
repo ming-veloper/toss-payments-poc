@@ -1,4 +1,4 @@
-FROM openjdk:17-ea AS builder
+FROM openjdk:18 AS builder
 COPY . .
 RUN ./gradlew clean bootJar
 

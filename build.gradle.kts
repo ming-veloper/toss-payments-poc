@@ -1,5 +1,6 @@
 import com.github.gradle.node.npm.task.NpmTask
 import com.github.gradle.node.task.NodeTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // SPRING
@@ -11,6 +12,9 @@ plugins {
 
     // NODE_JS
     id("com.github.node-gradle.node") version ("3.4.0")
+
+    // KOTLIN
+    kotlin("jvm") version "1.7.10"
 }
 
 node {
@@ -32,6 +36,7 @@ repositories {
 val feignVersion: String = "11.9.1"
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -49,6 +54,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()

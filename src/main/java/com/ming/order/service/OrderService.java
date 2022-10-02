@@ -1,6 +1,6 @@
 package com.ming.order.service;
 
-import com.ming.OrderDto;
+import com.ming.order.model.OrderDto;
 import com.ming.order.client.ProductServiceProxy;
 import com.ming.order.domain.entity.Order;
 import com.ming.order.domain.model.OrderRequest;

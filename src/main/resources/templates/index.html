@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <title>Toss 테스트 결제창</title>
     <meta charset="utf-8"/>
@@ -31,28 +31,18 @@
             </div>
         </div>
         <div class="col">
-            <div th:if="${orders != null}">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>주문번호</th>
-                        <th>주문</th>
-                        <th>가격</th>
-                        <th>주문자명</th>
-                        <th>주문상태</th>
-                    </tr>
-                    </thead>
-                    <tr th:each="order, index: ${orders}">
-                        <td th:text="${index.count}"></td>
-                        <td th:text="${order.orderId}"></td>
-                        <td th:text="${order.orderName}"></td>
-                        <td th:text="${order.amount}"></td>
-                        <td th:text="${order.ordererName}"></td>
-                        <td th:text="${order.orderStatus}"></td>
-                    </tr>
-                </table>
-            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문</th>
+                    <th>가격</th>
+                    <th>주문자명</th>
+                    <th>주문상태</th>
+                </tr>
+                </thead>
+                <tbody class="overflow" id="tableBody"></tbody>
+            </table>
         </div>
     </div>
 
@@ -64,9 +54,6 @@
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
 <script src="https://js.tosspayments.com/v1"></script>
-<script th:inline="javascript">
-    window.clientKey = /*[[${clientKey}]]*/;
-</script>
 <script src="dist/main.js"></script>
 </body>
 </html>

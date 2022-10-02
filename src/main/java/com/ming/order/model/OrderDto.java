@@ -1,4 +1,4 @@
-package com.ming;
+package com.ming.order.model;
 
 import com.ming.order.domain.model.OrderStatus;
 import lombok.AllArgsConstructor;
