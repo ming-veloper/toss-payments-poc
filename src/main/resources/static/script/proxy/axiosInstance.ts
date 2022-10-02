@@ -1,4 +1,4 @@
-import axios from "../../static/node_modules/axios";
+import axios from "axios";
 
 export const AXIOS_INSTANCE = axios.create({
     timeout: 1_000,

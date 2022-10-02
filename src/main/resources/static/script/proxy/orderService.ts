@@ -1,6 +1,6 @@
 import {AXIOS_INSTANCE} from "./axiosInstance";
 import {OrderModel} from "../models/orderModels";
-import {AxiosResponse} from "../../static/node_modules/axios";
+import {AxiosResponse} from "axios";
 import {Order, OrderId} from "../models/types";
 
 export class OrderService {

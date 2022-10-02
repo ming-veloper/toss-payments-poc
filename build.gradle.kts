@@ -1,6 +1,8 @@
 import com.github.gradle.node.npm.task.NpmTask
 import com.github.gradle.node.task.NodeTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 plugins {
     // SPRING
@@ -77,8 +79,14 @@ tasks.register("npmRunBuild", type = NpmTask::class) {
     dependsOn("npmSetScript")
     args.set(listOf("run", "build"))
     doLast {
-        val scriptFile = file("${project.projectDir}/src/main/resources/static/dist/main.js")
+        val scriptFile = file("${project.projectDir}/src/main/resources/static/main.js")
         println("exist? : ${scriptFile.exists()}")
+        println("isFile? : ${scriptFile.isFile}")
+        val inputStream = scriptFile.inputStream()
+        BufferedReader(InputStreamReader(inputStream)).lines()
+            .forEach {
+                println(it)
+            }
     }
 }
 

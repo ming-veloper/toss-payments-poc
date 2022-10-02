@@ -1,4 +1,4 @@
-import {loadTossPayments, TossPaymentsInstance} from '../static/node_modules/@tosspayments/payment-sdk'
+import {loadTossPayments, TossPaymentsInstance} from '@tosspayments/payment-sdk'
 import {PaymentModel} from "./models/paymentModel";
 import {OrderRequestModel} from "./models/orderModels";
 import {OrderService} from "./proxy/orderService";

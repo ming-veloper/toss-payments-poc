@@ -1,8 +1,5 @@
 module.exports = {
-    mode: 'development',
-
-    entry: '../templates/app.ts',
-
+    entry: './script/app.ts',
     module: {
         rules: [
             {
@@ -11,7 +8,10 @@ module.exports = {
             },
         ],
     },
-
+    output: {
+        path: __dirname,
+        filename: "main.js"
+    },
     resolve: {
         extensions: ['.ts', '.js'],
     },

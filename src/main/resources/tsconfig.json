@@ -15,7 +15,7 @@
     "strict": true
   },
   "include": [
-    "templates/*"
+    "static/script/*"
   ],
   "compileOnSave": true
 }
