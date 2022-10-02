@@ -1,4 +1,5 @@
 module.exports = {
+    mode: 'production',
     entry: './script/app.ts',
     module: {
         rules: [
