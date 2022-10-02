@@ -27,7 +27,6 @@ COPY --from=builder ${BUILD_TARGET}/org ${DEPLOY_PATH}/org
 COPY --from=builder ${BUILD_TARGET}/BOOT-INF/lib ${DEPLOY_PATH}/BOOT-INF/lib
 COPY --from=builder ${BUILD_TARGET}/META-INF ${DEPLOY_PATH}/META-INF
 COPY --from=builder ${BUILD_TARGET}/BOOT-INF/classes ${DEPLOY_PATH}/BOOT-INF/classes
-COPY --from=builder ${BUILD_TARGET}/BOOT-INF/classes/static/main.js ${DEPLOY_PATH}/BOOT-INF/classes/static/main.js
 WORKDIR ${DEPLOY_PATH}
 
 WORKDIR ${DEPLOY_PATH}

@@ -33,7 +33,7 @@ public class TossPaymentsPocApplication {
             System.out.println(s + " : " + systemEnvironment.get(s));
         }
 
-        var staticPathResource = new ClassPathResource("static");
+        var staticPathResource = new ClassPathResource("static/script");
         try (var walk = Files.walk(staticPathResource.getFile().toPath());) {
             walk.map(Path::toString)
                     .filter(e -> !e.contains("node_modules"))
