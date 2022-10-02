@@ -1,8 +1,8 @@
-FROM openjdk:18 AS builder
+FROM openjdk:11 AS builder
 COPY . .
 RUN ./gradlew clean bootJar
 
-FROM openjdk:17-ea
+FROM openjdk:11
 COPY --from=builder build/libs/*.jar app.jar
 
 #ARG JAR_FILE
