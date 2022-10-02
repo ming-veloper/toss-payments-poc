@@ -56,11 +56,11 @@ dependencies {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
 }
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
 }
 
 tasks.withType<Test> {
@@ -77,7 +77,6 @@ tasks.register("npmRunBuild", type = NpmTask::class) {
     dependsOn("npmSetScript")
     args.set(listOf("run", "build"))
 }
-
 
 // BUILD <-- npmRunBuild <-- npmSetScript <-- npmInstall
 tasks.first { it.name == "bootJar" }.dependsOn("npmRunBuild")
