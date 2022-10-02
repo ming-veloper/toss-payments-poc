@@ -1,6 +1,7 @@
 import com.github.gradle.node.npm.task.NpmTask
 import com.github.gradle.node.task.NodeTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     // SPRING
@@ -67,6 +68,20 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.register("npmRemove") {
+    val nodeModules = file("${project.projectDir}/src/main/resources/static/node_modules")
+    val jsFileName = "main.js"
+    val jsFile = file("${project.projectDir}/src/main/resources/static/$jsFileName")
+    val packageLockFile = file("${project.projectDir}/src/main/resources/static/package-lock.json")
+
+    if (nodeModules.exists()) nodeModules.deleteRecursively()
+    if (jsFile.exists()) jsFile.delete()
+    if (packageLockFile.exists()) packageLockFile.delete()
+}
+
+tasks.first { it.name == "clean" }.dependsOn("npmRemove")
+
+
 tasks.register("npmSetScript", type = NodeTask::class) {
     dependsOn("npmInstall")
     script.set(file("${project.projectDir}/src/main/resources/static/package.json"))
@@ -76,18 +91,14 @@ tasks.register("npmSetScript", type = NodeTask::class) {
 tasks.register("npmRunBuild", type = NpmTask::class) {
     dependsOn("npmSetScript")
     args.set(listOf("run", "build"))
-    doLast {
-        val scriptFile = file("${project.projectDir}/src/main/resources/static/somang.js")
-        if (scriptFile.exists()) {
-            copy {
-                from(scriptFile)
-                into("${project.projectDir}/build/resources/static/script")
-            }
-            scriptFile.delete()
-        }
-    }
 }
 
 // BUILD <-- npmRunBuild <-- npmSetScript <-- npmInstall
-tasks.first { it.name == "bootJar" }.dependsOn("npmRunBuild")
+tasks.named("bootJar", type = BootJar::class) {
+    dependsOn("npmRunBuild")
+    // jar 파일에 컨버팅 된 typescript 삽입
+    from("${project.projectDir}/src/main/resources/static/main.js") {
+        into("BOOT-INF/classes/static")
+    }
+}
 
