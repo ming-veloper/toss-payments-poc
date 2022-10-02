@@ -76,6 +76,10 @@ tasks.register("npmSetScript", type = NodeTask::class) {
 tasks.register("npmRunBuild", type = NpmTask::class) {
     dependsOn("npmSetScript")
     args.set(listOf("run", "build"))
+    doLast {
+        val scriptFile = file("${project.projectDir}/src/main/resources/static/dist/main.js")
+        println("exist? : ${scriptFile.exists()}")
+    }
 }
 
 // BUILD <-- npmRunBuild <-- npmSetScript <-- npmInstall
