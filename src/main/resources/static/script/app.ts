@@ -1,9 +1,9 @@
 import {loadTossPayments, TossPaymentsInstance} from '../node_modules/@tosspayments/payment-sdk'
 import {PaymentModel} from "./models/paymentModel";
-import {OrderRequestModel} from "./models/orderModels";
+import {OrderCreateRequestModel} from "./models/orderModels";
 import {OrderService} from "./proxy/orderService";
 import {CommonService} from "./proxy/commonService";
-import {Order, TableRowList} from "./models/types";
+import {Order, OrderStatus, TableRowList} from "./models/types";
 
 let tossInstance: TossPaymentsInstance;
 
@@ -30,12 +30,30 @@ function createOrderTableRow(trList: TableRowList, order: Order) {
 
     let orderStatus = document.createElement('td');
     orderStatus.innerText = order.orderStatus;
+    let refundButton;
+    let cancelled = OrderStatus.CANCELLED;
+    console.log(`cancelled status = ${cancelled}`);
+    //TODO 버튼 만들기
+    if (order.orderStatus !== cancelled) {
+        let refundButton = document.createElement('button');
+        refundButton.type = "button";
+        refundButton.className = "btn btn-danger";
+        refundButton.innerText = "환불하기";
+        refundButton.addEventListener("click", ev => {
+            console.log(`orderId = ${order.orderId}`);
+        });
+    }
+
 
     tableRow.appendChild(orderIdColumn);
     tableRow.appendChild(orderNameColumn);
     tableRow.appendChild(amountColumn);
     tableRow.appendChild(ordererNameColumn);
     tableRow.appendChild(orderStatus);
+    if (refundButton) {
+        tableRow.appendChild(refundButton);
+    }
+
 
     trList.push(tableRow);
 }
@@ -52,9 +70,13 @@ function createOrderTable(orders: Order[]) {
     });
 }
 
-async function main() {
+async function renderingTable() {
     const orders: Order[] = (await OrderService.getOrders()).data;
     createOrderTable(orders);
+}
+
+async function main() {
+    await renderingTable();
     let clientKey = (await CommonService.getClientKey()).data;
     tossInstance = await loadTossPayments(clientKey);
     let element = document.querySelector('#paymentButton') as HTMLButtonElement;
@@ -70,7 +92,7 @@ async function processPayments() {
 
     let parsedValue = (document.querySelector('#productId') as HTMLInputElement).value;
     let productId = Number(parsedValue);
-    let orderRequestModel: OrderRequestModel = {
+    let orderRequestModel: OrderCreateRequestModel = {
         ordererName,
         productId
     }
@@ -85,9 +107,17 @@ async function processPayments() {
         .withSuccessUrl(window.location.origin + "/success")
         .withFailUrl(window.location.origin + "/fail")
         .build();
-    tossInstance.requestPayment("카드", paymentData);
-
-
+    tossInstance.requestPayment("카드", paymentData)
+        .catch(async error => {
+            // 결제 취소
+            console.error(error);
+            const {status} = await OrderService.cancelOrder({orderId: data});
+            console.log(`status = ${status}`);
+            console.log('주문 취소 완료');
+            renderingTable();
+        })
 }
 
+console.log('hello wow!!~!');
+console.log("Hello Somang!");
 main();

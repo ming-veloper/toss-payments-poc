@@ -1,5 +1,6 @@
 package com.ming.order.controller;
 
+import com.ming.order.domain.model.OrderCancelRequest;
 import com.ming.order.domain.model.OrderRequest;
 import com.ming.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,12 @@ public class OrderController {
                 .body(orderId);
     }
 
-//    @PostMapping("/cancel")
-//    public ResponseEntity<?> cancelOrder() {
-//
-//    }
+    @PostMapping("/cancel")
+    public ResponseEntity<Void> cancelOrder(@RequestBody OrderCancelRequest request) {
+        orderService.cancelOrder(request);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
 
 }

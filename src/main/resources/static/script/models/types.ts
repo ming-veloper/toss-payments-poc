@@ -9,8 +9,8 @@ export interface Order {
     orderStatus: OrderStatus
 }
 
-enum OrderStatus {
-    PENDING = "주문대기",
-    CANCELLED = "주문취소",
-    COMPLETED = "주문완료"
+export enum OrderStatus {
+    PENDING = "PENDING",
+    CANCELLED = "CANCELLED",
+    COMPLETED = "COMPLETED"
 }

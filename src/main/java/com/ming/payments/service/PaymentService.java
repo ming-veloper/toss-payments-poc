@@ -27,7 +27,7 @@ public class PaymentService {
     private final OrderService orderService;
     private final ModelMapper modelMapper;
 
-    public void doSomething(PaymentApprovalRequest request) {
+    public void success(PaymentApprovalRequest request) {
         //TODO 결제 금액 같은지 검증 필요한데,,, 그냥 했다 치자~
         PaymentModel paymentModel = proxy.confirmPayment(configuration.getSecretKey(), request);
         if (!paymentModel.getStatus().equals("DONE")) {

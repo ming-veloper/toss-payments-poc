@@ -47,7 +47,6 @@ dependencies {
     implementation("io.github.openfeign:feign-slf4j:$feignVersion")
     implementation("org.modelmapper:modelmapper:3.1.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     compileOnly("org.projectlombok:lombok")
     implementation("mysql:mysql-connector-java")
@@ -79,8 +78,9 @@ tasks.register("npmRemove") {
     if (packageLockFile.exists()) packageLockFile.delete()
 }
 
-tasks.first { it.name == "clean" }.dependsOn("npmRemove")
-
+tasks.named("npmInstall") {
+    dependsOn("npmRemove")
+}
 
 tasks.register("npmSetScript", type = NodeTask::class) {
     dependsOn("npmInstall")

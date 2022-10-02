@@ -32,4 +32,8 @@ public class OrderId implements Serializable {
                 .id(id)
                 .build();
     }
+
+    public static OrderId of(String orderId) {
+        return new OrderId(orderId);
+    }
 }

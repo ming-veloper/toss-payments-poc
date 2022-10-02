@@ -21,8 +21,8 @@ public class PaymentViewController {
     }
 
     @GetMapping("/success")
-    public String test(PaymentApprovalRequest request) {
-        paymentService.doSomething(request);
+    public String paymentSuccess(PaymentApprovalRequest request) {
+        paymentService.success(request);
         return "redirect:/";
     }
 
