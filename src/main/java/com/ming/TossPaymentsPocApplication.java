@@ -13,9 +13,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 @EnableAsync
 @SpringBootApplication
@@ -26,6 +32,17 @@ public class TossPaymentsPocApplication {
         for (String s : systemEnvironment.keySet()) {
             System.out.println(s + " : " + systemEnvironment.get(s));
         }
+
+        var staticPathResource = new ClassPathResource("static");
+        try (var walk = Files.walk(staticPathResource.getFile().toPath());) {
+            walk.map(Path::toString)
+                    .filter(e -> !e.contains("node_modules"))
+                    .collect(toList())
+                    .forEach(System.out::println);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         SpringApplication.run(TossPaymentsPocApplication.class, args);
     }
 

@@ -1,16 +1,35 @@
 FROM openjdk:11 AS builder
+# set arg
+ARG WORKSPACE=/home/spring-docker
+ARG BUILD_TARGET=${WORKSPACE}/build/libs
+WORKDIR ${WORKSPACE}
+
 COPY . .
 RUN ./gradlew clean bootJar
 
-FROM openjdk:11
-COPY --from=builder build/libs/*.jar app.jar
+# unpack jar
+WORKDIR ${BUILD_TARGET}
+RUN jar -xf *.jar
 
-#ARG JAR_FILE
+FROM openjdk:11
+
+ARG WORKSPACE=/home/spring-docker
+ARG BUILD_TARGET=${WORKSPACE}/build/libs
+ARG DEPLOY_PATH=${WORKSPACE}/deploy
 ARG DATABASE_USERNAME
 ARG DATABASE_PASSWORD
 ARG DATABASE_URL
 ARG TOSS_CLIENT_KEY
 ARG TOSS_SECRET_KEY
 
-#COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
+# copy from build stage
+COPY --from=builder ${BUILD_TARGET}/org ${DEPLOY_PATH}/org
+COPY --from=builder ${BUILD_TARGET}/BOOT-INF/lib ${DEPLOY_PATH}/BOOT-INF/lib
+COPY --from=builder ${BUILD_TARGET}/META-INF ${DEPLOY_PATH}/META-INF
+COPY --from=builder ${BUILD_TARGET}/BOOT-INF/classes ${DEPLOY_PATH}/BOOT-INF/classes
+WORKDIR ${DEPLOY_PATH}
+
+WORKDIR ${DEPLOY_PATH}
+
+EXPOSE 8080/tcp
+ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]

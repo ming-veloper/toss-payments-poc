@@ -83,10 +83,7 @@ tasks.register("npmRunBuild", type = NpmTask::class) {
         println("exist? : ${scriptFile.exists()}")
         println("isFile? : ${scriptFile.isFile}")
         val inputStream = scriptFile.inputStream()
-        BufferedReader(InputStreamReader(inputStream)).lines()
-            .forEach {
-                println(it)
-            }
+        BufferedReader(InputStreamReader(inputStream)).lines().forEach(::println)
     }
 }
 
